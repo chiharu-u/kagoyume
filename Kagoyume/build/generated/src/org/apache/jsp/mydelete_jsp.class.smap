@@ -1,0 +1,15 @@
+SMAP
+mydelete_jsp.java
+JSP
+*S JSP
+*F
++ 0 mydelete.jsp
+mydelete.jsp
+*L
+9,9:45
+17,24:54
+41,7:78,3
+48:99
+49:100,3
+50,11:103
+*E
