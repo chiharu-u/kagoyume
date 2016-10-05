@@ -52,11 +52,10 @@
             ここからメイン
         -->
         <div id="main-box">
-            エラーが発生しました。以下の項目を確認してください。<br>
-            <%=request.getAttribute("error")%><br>
+            エラーが発生しました。以下の項目を確認してください。
             <br>
-            <%-- トップページへのリンク --%>
-            <%= KagoyumeHelper.getInstance().home() %>
+            <br>
+            <%=request.getAttribute("error")%><br>
         </div>
     </body>
 </html>

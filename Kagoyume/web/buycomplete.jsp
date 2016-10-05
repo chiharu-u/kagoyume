@@ -9,14 +9,16 @@
     「購入が完了しました」と表示
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="kagoyume.UserProductData"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="kagoyume.KagoyumeHelper"%>
 <%@page import="kagoyume.UserDataDTO"%>
 
 <%
     HttpSession hs = request.getSession();
+    UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
     KagoyumeHelper kh = KagoyumeHelper.getInstance();
-    UserDataDTO udd = (UserDataDTO)hs.getAttribute("logindata");
 %>    
 <!DOCTYPE html>
 <html>
@@ -32,30 +34,26 @@
         <div id="header">
             <!--　サイトタイトル・説明　-->
             <%= kh.title() %>
-            <%= kh.subTitle() %>        
-            
+            <%= kh.subTitle() %>            
             <!--　
                 セッションに入れたloginchkを取り出して、
                 ログイン中であればユーザー名・ログアウト・買い物かごを表示する
             -->
             <% if("login".equals(hs.getAttribute("loginchk"))){ %>
-            <a href="/mydata.jsp"><%= udd.getName() %></a>さん&nbsp;ようこそ！           
+            <a href="./mydata.jsp"><%= udd.getName() %></a>さん&nbsp;ようこそ！           
             <a href="Cart">買い物かご</a>
             <!--　ログアウトする時は、クエリストリングで値を送ってLogin.javaで分岐させる　-->
-            <a href="Login?login=logout">ログアウト</a>            
+            <%= kh.logout() %>
             <% } else{ %>
-            <!--　ログインへのリンク　-->
+            <!--　ログインリンク　-->
             <%= kh.login() %>
             <% } %>
-            <!--　ホームへのリンク　-->
-            <%= kh.home() %>
         </div>
         <!--
             ここからメイン
         -->
         <div id="main-box">
-            <h4>購入完了</h4>
-            お買い上げありがとうございます！
+            <h4>お買い上げありがとうございます！</h4>
         </div>
     </body>
 </html>

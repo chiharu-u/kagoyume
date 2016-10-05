@@ -34,16 +34,15 @@ public class Registrationconfirm extends HttpServlet {
             throws ServletException, IOException {
         
         //セッションスタート
-        HttpSession session = request.getSession();
+        HttpSession hs = request.getSession();
      
         try {
             //エンコード
             request.setCharacterEncoding("UTF-8");
             
-            //アクセスルートチェック
+            //アクセスチェック
             String accesschk = request.getParameter("ac");
-            if(accesschk ==null) //|| (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk))
-                    {
+            if(accesschk == null || (Integer)hs.getAttribute("ac") != Integer.parseInt(accesschk)){
                 throw new Exception("不正なアクセスです");
             }
             
@@ -56,7 +55,7 @@ public class Registrationconfirm extends HttpServlet {
             ud.setAddress(request.getParameter("address"));            
             
             //格納したユーザー情報をセッションに格納
-            session.setAttribute("ud", ud);
+            hs.setAttribute("ud", ud);
             
             System.out.println("Session updated!!");
             

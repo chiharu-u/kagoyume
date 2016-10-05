@@ -6,8 +6,6 @@
 package kagoyume;
 
 import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,19 +43,17 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         
         //セッション開始
-        HttpSession hs = request.getSession();
+        HttpSession hs = request.getSession();  
         
         try {
         
         //エンコード
         request.setCharacterEncoding("UTF-8");
         
-        String login = request.getParameter("login");
-        
-        ArrayList<UserProductData> cartList = (ArrayList)hs.getAttribute("cartList");
-                
+        String login = request.getParameter("login");           
         
         //フォームのログインorログアウトによって処理を分岐
+        //ログインを押されたら
         if(login.equals("login")){
 
         //ユーザー名とパスワードを取得
@@ -73,6 +69,7 @@ public class Login extends HttpServlet {
         UserDataDTO userData  = new UserDataDTO();
         ud.DTOMapping(userData);
         
+        //DBからユーザーがあるか検索
         UserDataDTO loginData = UserDataDAO.getInstance().selectUser(userData);
         
         if(loginData != null && loginData.getDeleteFlg() == 0){
@@ -82,31 +79,24 @@ public class Login extends HttpServlet {
         
         //ログイン状態をセッションに格納
         hs.setAttribute("loginchk", "login");
-       
-        //直前まで閲覧していたページへフォワード
-        //カートを見るを押してからログインの時はカートページへ
-        if(cartList.size() != 0){
-            response.sendRedirect("cart.jsp");
-        }
-        else{
-           response.sendRedirect(new URI(request.getHeader("referer")).getPath());  
-        }                
-        }        
+        
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
+        
+        }              
         else if(loginData.getDeleteFlg() == 1){
-        //検索結果の値が空だった場合はエラーページへ遷移
-        String error = "存在しないユーザーです";
+        //検索結果の値が１だった場合は削除のエラー文
+        String error = "存在しないユーザーです。";
         request.setAttribute("error", error);
         request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
-        }
-        
+        }        
         //ログアウトを押された時はセッションをクリアしてホームへ戻る
         else{           
         hs.removeAttribute("loginData");
         hs.removeAttribute("loginchk");
         //ホームへリダイレクト
         response.sendRedirect("index.jsp");
-        }   
+        }
         
         //例外処理
         }catch(Exception e){

@@ -39,15 +39,15 @@ public class MyupdateResultConfirm extends HttpServlet {
             request.setCharacterEncoding("UTF-8");
             
             //アクセスルートチェック
-//            String accesschk = request.getParameter("ac");
-//            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
-//                throw new Exception("不正なアクセスです");
-//            }
+            String accesschk = request.getParameter("ac");
+            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+                throw new Exception("不正なアクセスです");
+            }
             
             //フォームからの更新情報をjava beansにセットする
             UserData ud = new UserData();
             
-            ud.setUserID(request.getParameter("id"));
+            ud.setUserID(Integer.parseInt(request.getParameter("id")));
             ud.setName(request.getParameter("name"));
             ud.setPassword(request.getParameter("password"));
             ud.setMail(request.getParameter("email"));

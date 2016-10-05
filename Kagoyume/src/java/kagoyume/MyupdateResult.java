@@ -37,10 +37,10 @@ public class MyupdateResult extends HttpServlet {
         try {
             
             //アクセスルートチェック
-//            String accesschk = request.getParameter("ac");
-//            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
-//                throw new Exception("不正なアクセスです");
-//            }
+            String accesschk = request.getParameter("ac");
+            if(accesschk ==null || (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk)){
+                throw new Exception("不正なアクセスです");
+            }
             
             //セッションに格納した更新データを取り出す
             UserData updateData = (UserData)session.getAttribute("updateData");

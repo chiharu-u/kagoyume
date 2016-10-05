@@ -19,7 +19,9 @@
     HttpSession hs = request.getSession();
     UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
     KagoyumeHelper kh = KagoyumeHelper.getInstance();
-    ArrayList<UserProductData> cartList = (ArrayList)hs.getAttribute("cartList");    
+    ArrayList<UserProductData> cartList = (ArrayList)hs.getAttribute("cartList");
+    //total金額を取り出す
+    int total = Integer.parseInt(request.getParameter("totalprice")); 
 %>
 
 <!DOCTYPE html>
@@ -36,8 +38,7 @@
         <div id="header">
             <!--　サイトタイトル・説明　-->
             <%= kh.title() %>
-            <%= kh.subTitle() %>
-            
+            <%= kh.subTitle() %>            
             <!--　
                 セッションに入れたloginchkを取り出して、
                 ログイン中であればユーザー名・ログアウト・買い物かごを表示する
@@ -61,32 +62,39 @@
             <h4>購入確認画面</h4>
             <%
                 if(cartList.size() != 0){
-                    for(int i = 0; i < cartList.size(); i++){                        
-                    UserProductData upd = cartList.get(i); %>                   
-                    <table>
-                        <tr>
-                            <td rowspan = 2><IMG src="<%= upd.getImgURLm() %>"></td>
-                            <td><%= upd.getName() %></td>
-                        </tr>
-                        <tr>
-                            <td><%= upd.getPrice() %>円</td>
-                        </tr>
-                        <tr>
-                            <td>合計金額：円です</td>                               
-                        </tr>
-                    </table>
-                        <% } %>
-                             <% } %>
+                    for(int i = 0; i < cartList.size(); i++){
+            UserProductData upd = cartList.get(i); %>                   
+            <table>
+                <tr>
+                    <td rowspan = 2><IMG src="<%= upd.getImgURLs() %>"></td>
+                    <td>商品名：<%= upd.getName() %></td>
+                </tr>
+                <tr>
+                    <td>価格：<%= upd.getPrice() %>円</td>
+                </tr>
+            </table>
+                    <% } %>
+                <% } %>
+                <h4>合計金額：<%= total %>円</h4>
+                <br>
             <h4>発送方法</h4> 
+            発送方法を指定して下さい。
             <br>
+            <br>
+            <!--　購入　-->
             <form action="Buycomplete" method="post">
                 <% for(int i = 1; i <= 3; i++ ){ %>
-                <input type="radio" name="type" value="<%= i %>"><%= kh.type(i) %>>
-            <% } %>
+                <input type="radio" name="type" value="<%= i %>"><%= kh.type(i) %>
+                <% } %>
+                <br>
                 <input type="hidden" name="buyid" value="<%= udd.getUserID() %>">
+                <input type="hidden" name="totalprice" value="<%= total %>">
+                <br>
                 <input type="submit" name="" value="上記の内容で購入する">
             </form>      
-            <form action="" method="post">
+            <br>
+            <!--　カートに戻る　-->
+            <form action="Cart" method="post">
                 <input type="submit" value="カートに戻る">
             </form>
         </div>        

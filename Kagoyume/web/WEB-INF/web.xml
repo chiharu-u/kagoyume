@@ -68,6 +68,10 @@
         <servlet-name>Buyconfirm</servlet-name>
         <servlet-class>kagoyume.Buyconfirm</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Mydata</servlet-name>
+        <servlet-class>kagoyume.Mydata</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Search</servlet-name>
         <url-pattern>/Search</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>Buyconfirm</servlet-name>
         <url-pattern>/Buyconfirm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Mydata</servlet-name>
+        <url-pattern>/Mydata</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

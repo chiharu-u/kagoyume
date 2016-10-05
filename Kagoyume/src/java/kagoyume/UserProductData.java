@@ -14,12 +14,12 @@ public class UserProductData {
     //変数設定
     private String name; //商品の名前
     private int price; //商品金額
-    private String code;
-    private String imgURLm; //画像URL
-    private String imgURLs;
-    private String description; //説明
+    private String code; //アイテムコード
+    private String imgURLm; //画像URL　Mサイズ
+    private String imgURLs; //画像URL　Sサイズ
+    private String description; //商品説明
     private String rate; //評価
-    private String reviewURL;
+    private int total; //トータル金額
     
     public UserProductData(){
         this.name = "";
@@ -29,7 +29,7 @@ public class UserProductData {
         this.imgURLs = "";
         this.description = "";
         this.rate = "";
-        this.reviewURL = "";
+        this.total = 0;  
     }
     
     
@@ -82,11 +82,11 @@ public class UserProductData {
         this.rate = rate;
     }
     
-    public String getReviewURL(){
-        return reviewURL;
+    public int getTotal(){
+        return total;
     }
-    public void setReviewURL(String reviewURL){
-        this.reviewURL = reviewURL;
+    public void setTotal(int total){
+        this.total = total;
     }
    
 }

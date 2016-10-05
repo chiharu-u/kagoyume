@@ -8,7 +8,6 @@ package kagoyume;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,20 +33,33 @@ public class Add extends HttpServlet {
         
         HttpSession hs  = request.getSession();        
         
-        try {            
+        try {
+            
+            //アクセスルートチェック
+            String accesschk = request.getParameter("ac");
+            if(accesschk ==null) //|| (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk))
+                    {
+                throw new Exception("不正なアクセスです");
+            }
+            
+            ArrayList<UserProductData>cartList = new ArrayList<UserProductData>(); 
+            
+            //カートリストが空じゃなかったらセッションに格納したカートリストを使う
+            if(hs.getAttribute("cartList") != null){
+                cartList = (ArrayList)hs.getAttribute("cartList");                          
+            }           
            
-           ArrayList<UserProductData>cartList = new ArrayList<UserProductData>(); 
-           
-           if(hs.getAttribute("cartList") != null){
-               cartList = (ArrayList)hs.getAttribute("cartList");                          
-           }           
-           
-           cartList.add((UserProductData)hs.getAttribute("upd"));     
-           
-           hs.setAttribute("cartList", cartList);
-        
-        //フォワード
-        request.getRequestDispatcher("/add.jsp").forward(request, response);
+            //最後にupdに入ってる商品情報を追加する
+            cartList.add((UserProductData)hs.getAttribute("upd"));     
+            
+            //セッションに入れる
+            hs.setAttribute("cartList", cartList);
+            
+            //ログに記録する
+            Log.getInstance().logfile("カート追加画面へ遷移");
+
+            //フォワード
+            request.getRequestDispatcher("/add.jsp").forward(request, response);
         
         }catch(Exception e){
             request.setAttribute("error", e.getMessage());

@@ -53,13 +53,15 @@
             <h4>ユーザーデータ　更新確認画面</h4>
             以下の情報で更新します。
             <br>
+            <br>
             名前：<%= ud.getName() %><br>
             パスワード：<%= ud.getPassword() %><br>
             メール：<%= ud.getMail() %><br>
             住所：<%= ud.getAddress() %><br>
             <br>
             <form action="MyupdateResult" method="post">
-                <input type="hidden" name="ac"  value="ac">
+                <%-- アクセスチェッック　--%>
+                <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
                 <input type="submit" name="" value="更新">
             </form>
             <form action="Myupdate" method="post">

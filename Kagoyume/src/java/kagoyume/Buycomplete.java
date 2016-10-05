@@ -29,6 +29,7 @@ public class Buycomplete extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -39,39 +40,60 @@ public class Buycomplete extends HttpServlet {
             //エンコード
             request.setCharacterEncoding("UTF-8");
             
-            UserData ud = new UserData();
-            ud.setUserID(request.getParameter("buyid"));
+            //アクセスチェック
+            String accesschk = request.getParameter("ac");
+            if(accesschk == null || (Integer)hs.getAttribute("ac") != Integer.parseInt(accesschk)){
+                throw new Exception("不正なアクセスです");
+            } 
+                     
+            //ユーザーIDとtotal金額を取り出す
+            int userID = Integer.parseInt(request.getParameter("buyid"));
+            int totalprice = Integer.parseInt(request.getParameter("totalprice"));
             
-            //DTOにマッピング
-            UserDataDTO total = new UserDataDTO();
-            ud.DTOMapping(total);
+            //購入者のユーザーIDとtotal金額をUserDataにセット
+            UserData ud = new UserData();            
+            ud.setUserID(userID);
+            ud.setTotal(totalprice);
             
+            //user_tテーブルのtotal
+            UserDataDTO total = new UserDataDTO();                        
+            //データベースへ挿入するためにDTOにマッピングする
+            ud.DTOMapping(total);            
+            //total金額を挿入する
             UserDataDAO.getInstance().Total(total);
             
-            //ArrayListで受け取る
-            ArrayList<UserProductData> buyList = (ArrayList)hs.getAttribute("cartList");
+            //セッションの中のcartlistを受け取る
+            ArrayList <UserProductData> cartList = (ArrayList <UserProductData>)hs.getAttribute("cartList");
             
-            //商品分データベースへ挿入する
-            for(int i = 0; i<buyList.size(); i++) {
-                 UserDataDTO udd = new UserDataDTO();
+            //購入商品をデータベースへ入れる
+            //リストに入っている数だけfor文で回す
+            for(int i = 0; i < cartList.size(); i++) {
+                
+                //uddインスタンスを生成
+                UserDataDTO udd = new UserDataDTO();
                  
-                 udd.setUserID(ud.getUserID());
+                //ID,itemcode,発送種別をセットする（buyDateは挿入するときに作る）
+                udd.setUserID(ud.getUserID());
+                udd.setItemCode(cartList.get(i).getCode());
+                udd.setType(Integer.parseInt(request.getParameter("type")));
                  
-                 udd.setItemCode(buyList.get(i).getCode());
-                 
-                 udd.setType(Integer.parseInt(request.getParameter("type")));
-                 
-                 UserDataDAO.getInstance().BuyInsert(udd);
-             }
-             
+                //DAOからデータ挿入
+                UserDataDAO.getInstance().BuyInsert(udd);
+            }
+            
+            //ログファイル
             Log.getInstance().logfile("購入完了画面へ遷移");
              
+            //購入後にカートの中身を消す
+            cartList.clear();
+
+            //購入完了画面へ遷移
             request.getRequestDispatcher("/buycomplete.jsp").forward(request, response);
             
-            }catch(Exception e){
+        //例外処理
+        }catch(Exception e){
             request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("/error.jsp").forward(request, response);
-           
+            request.getRequestDispatcher("/error.jsp").forward(request, response);          
         }
     }
 

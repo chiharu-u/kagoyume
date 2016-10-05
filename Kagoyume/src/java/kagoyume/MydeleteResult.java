@@ -39,13 +39,14 @@ public class MydeleteResult extends HttpServlet {
             //エンコード
             request.setCharacterEncoding("UTF-8");
             
-//            String accesschk = request.getParameter("ac");
-//            if(accesschk == null || (Integer)session.getAttribute("ac") != Integer.parseInt(accesschk)){
-//                throw new Exception("不正なアクセスです");
-//            }
-//            
+            //アクセスチェック
+            String accesschk = request.getParameter("ac");
+            if(accesschk == null || (Integer)session.getAttribute("ac") != Integer.parseInt(accesschk)){
+                throw new Exception("不正なアクセスです");
+            }
+            
             //削除するユーザーIDを取り出す
-            String id = request.getParameter("id");
+            int id = Integer.parseInt(request.getParameter("id"));
             
             //UserDatインスタンスを生成
             UserData ud = new UserData();

@@ -1,4 +1,6 @@
-    <%-- 
+    <%@page import="kagoyume.UserProductData"%>
+<%@page import="java.util.ArrayList"%>
+<%-- 
     Document   : top
     Created on : 2016/09/23, 10:43:40
     Author     : uezuchiharu
@@ -19,7 +21,7 @@
 <%
                 //フォームタグプルダウン
                 //カテゴリー　HashMap
-                HashMap<String, String> categories = new HashMap<String, String>();
+                HashMap<String, String> categories = new HashMap();
 
                 categories.put("1", "すべてのカテゴリから");
                 categories.put("13457", "ファッション");
@@ -45,7 +47,7 @@
                 categories.put("10002", "本、雑誌、コミック");
 
                 //ソート　HashMap
-                HashMap<String, String> sortOrder = new HashMap<String, String>();
+                HashMap<String, String> sortOrder = new HashMap();
 
                 sortOrder.put("-score", "おすすめ順");
                 sortOrder.put("+price", "商品価格が安い順");
@@ -58,7 +60,7 @@
 <%
     HttpSession hs = request.getSession();
     UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
-    KagoyumeHelper kh = KagoyumeHelper.getInstance();   
+    KagoyumeHelper kh = KagoyumeHelper.getInstance(); 
 %>
 
 <!DOCTYPE html>
@@ -83,7 +85,7 @@
                 ログイン中であればユーザー名・ログアウト・買い物かごを表示する
             -->
             <% if("login".equals(hs.getAttribute("loginchk"))){ %>
-            <a href="./mydata.jsp"><%= udd.getName() %></a>さん&nbsp;ようこそ！           
+            <a href="Mydata"><%= udd.getName() %></a>さん&nbsp;ようこそ！           
             <a href="Cart">買い物かご</a>
             <!--　ログアウトする時は、クエリストリングで値を送ってLogin.javaで分岐させる　-->
             <%= kh.logout() %>

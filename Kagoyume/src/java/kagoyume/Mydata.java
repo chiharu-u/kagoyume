@@ -16,11 +16,8 @@ import javax.servlet.http.HttpSession;
 /**
  *
  * @author uezuchiharu
- * 
- * 更新機能
- * 
  */
-public class Myupdate extends HttpServlet {
+public class Mydata extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,26 +30,22 @@ public class Myupdate extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        //セッションスタート
-        HttpSession session = request.getSession();
+       
+        //セッション開始
+        HttpSession hs = request.getSession();
         
         try {
-            //エンコード
-            request.setCharacterEncoding("UTF-8");
-            
-            //アクセスチェック
-            String accesschk = request.getParameter("ac");
-            if(accesschk == null || (Integer)session.getAttribute("ac") != Integer.parseInt(accesschk)){
-                throw new Exception("不正なアクセスです");
-            }          
-            //変更画面へフォワード
-            request.getRequestDispatcher("/myupdate.jsp").forward(request, response);
-            
-            //例外処理
-        }catch (Exception e){
+
+        //アクセスチェックのための乱数を作る
+        hs.setAttribute("ac", (int)(Math.random() * 1000));
+        
+        //登録画面へフォワード
+        request.getRequestDispatcher("/mydata.jsp").forward(request, response);
+        
+        //例外処理        
+        }catch(Exception e){
             request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("/error.jsp").forward(request, response);           
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 

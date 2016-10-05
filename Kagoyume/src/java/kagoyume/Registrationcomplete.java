@@ -40,11 +40,10 @@ public class Registrationcomplete extends HttpServlet {
             request.setCharacterEncoding("UTF-8");
             
             //アクセスチェック
-//            String accesschk = request.getParameter("ac");
-//            if(accesschk == null || (Integer)session.getAttribute("ac") != Integer.parseInt(accesschk)){
-//                throw new Exception("不正なアクセスです");
-//            }
-            
+            String accesschk = request.getParameter("ac");
+            if(accesschk == null || (Integer)session.getAttribute("ac") != Integer.parseInt(accesschk)){
+                throw new Exception("不正なアクセスです");
+            }            
             
             UserData ud  = (UserData)session.getAttribute("ud");
             
@@ -54,15 +53,6 @@ public class Registrationcomplete extends HttpServlet {
             
             //DBへデータを挿入する
             UserDataDAO.getInstance().insert(userdata);
-            
-            //ログ処理
-            File log = new File("log.txt");
-            FileWriter fw = new FileWriter(log);
-            BufferedWriter bw = new BufferedWriter(fw);
-            Date time = new Date();
-            //bw.write(time);
-            bw.write("新規登録完了");
-            bw.close();
             
             //成功した時はセッションの値を削除する
             session.invalidate();

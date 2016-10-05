@@ -53,11 +53,18 @@
             ここからメイン
         -->
         <div id="main-box">
+        <h4>変更画面</h4>
+        変更する箇所を入力して下さい。
+        <br>
+        <br>
             <form action="MyupdateResultConfirm?id=<%= udd.getUserID() %>" method="post">
                 氏名：<input type="text" name="name" value="<%= udd.getName() %>"><br>
                 パスワード：<input type="password" name="password" value="<%= udd.getPassword() %>"><br>
                 メールアドレス：<input type="email" name="email" value="<%= udd.getMail() %>"><br>
                 住所：<input type="text" name="address" value="<%= udd.getAddress() %>"><br>
+                <br>
+                <%-- アクセスチェッック　--%>
+                <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
                 <input type="submit" name="update" value="確認画面へ">
             </form>            
         </div>

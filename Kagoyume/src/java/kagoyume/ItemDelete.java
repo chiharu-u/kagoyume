@@ -6,11 +6,12 @@
 package kagoyume;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,18 +30,30 @@ public class ItemDelete extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ItemDelete</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ItemDelete at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        HttpSession hs = request.getSession();
+        
+        try {
+        
+            //削除する番号を取り出す
+            int deleteID = Integer.parseInt(request.getParameter("delete"));
+            
+            //arraylistを持ってくる
+            ArrayList<UserProductData> cartList = (ArrayList)hs.getAttribute("cartList");
+            
+            //カートリストから指定された要素を削除する
+            cartList.remove(deleteID);
+            
+            //削除したカートリストをセッションに入れる
+            hs.setAttribute("cartList", cartList);
+            
+            //リダイレクト
+            response.sendRedirect("cart.jsp");
+            
+        //例外処理
+        }catch(Exception e){
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("/error.jsp").forward(request, response);                         
         }
     }
 

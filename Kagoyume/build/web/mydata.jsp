@@ -23,7 +23,7 @@
     <head>
         <link rel="stylesheet" href="./css/style.css"/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Kagoyume/ユーザー情報</title>
     </head>
     <body>
         <!--        
@@ -62,17 +62,19 @@
             登録日：<%= udd.getNewDate() %><br>
             <br>
             <!--　購入履歴一覧画面へのリンク　-->
-            <a href="Myhistory">購入履歴</a>
+            <a href="Myhistory?userid=<%= udd.getUserID() %>">購入履歴</a>
             <br>
             <br>
             <!-- 登録情報の変更画面へ　-->
             <form action="Myupdate" method="post">
-                <input type="hidden" name="ac" value="ac">
+                <%-- アクセスチェッック　--%>
+                <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
                 <input type="submit" name="update" value="変更" style="width: 100px">
             </form>
             <!--　ユーザーデータ削除　確認画面へ　-->
             <form action="mydelete" method="post">
-                <input type="hidden" name="ac" value="ac">
+                <%-- アクセスチェッック　--%>
+                <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
                 <input type="submit" name="delete" value="削除" style="width: 100px">
             </form>
         </div>

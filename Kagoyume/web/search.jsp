@@ -59,6 +59,10 @@
             ここからメイン
         -->
         <div id="main-box">
+            <h4>検索結果</h4>
+            検索結果数：<%= hs.getAttribute("totalsearch") %>件　検索ワード：<%= hs.getAttribute("query") %>
+            <br>
+            <br>
             <%
                 if(list.size() != 0){
                     for(int i = 0; i < list.size(); i++){                        
@@ -66,13 +70,13 @@
                     <table>
                         <tr>
                             <td rowspan = 3><IMG src="<%= upd.getImgURLm() %>"></td>
-                            <td colspan = 2><%= upd.getName() %></td>
+                            <td colspan = 2>商品名：<%= upd.getName() %></td>
                         </tr>
                         <tr>
                             <td colspan = 2><%= upd.getDescription() %></td>    
                         </tr>
                         <tr>
-                            <td><%= upd.getPrice() %>円</td>
+                            <td>価格：<%= upd.getPrice() %>円</td>
                             <td>評価：<%= upd.getRate() %></td>
                             <td>
                                 <form action="Item" method="get">
@@ -83,9 +87,7 @@
                         </tr>
                     </table>
                     <% } %>
-               <% }else{ %>
-               検索結果はありません
-               <% } %>
+                <% } %>
         </div>
     </body>
 </html>

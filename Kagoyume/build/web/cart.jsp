@@ -23,7 +23,10 @@
     HttpSession hs = request.getSession();
     UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
     KagoyumeHelper kh = KagoyumeHelper.getInstance();
-    ArrayList<UserProductData> cartList = (ArrayList)hs.getAttribute("cartList");    
+    ArrayList<UserProductData> cartList = (ArrayList)hs.getAttribute("cartList");
+    
+    //合計金額用の変数
+    int total = 0;
 %>
 <!DOCTYPE html>
 <html>
@@ -46,7 +49,7 @@
                 ログイン中であればユーザー名・ログアウト・買い物かごを表示する
             -->
             <% if("login".equals(hs.getAttribute("loginchk"))){ %>
-            <a href="/mydata.jsp"><%= udd.getName() %></a>さん&nbsp;ようこそ！           
+            <a href="./mydata.jsp"><%= udd.getName() %></a>さん&nbsp;ようこそ！           
             <a href="Cart">買い物かご</a>
             <!--　ログアウトする時は、クエリストリングで値を送ってLogin.javaで分岐させる　-->
             <a href="Login?login=logout">ログアウト</a>            
@@ -62,32 +65,47 @@
         -->
         <div id="main-box">
             <h4>買い物かご</h4>
-            <%
+            <%  //カートリストに入っている商品分だけテーブルを作って表示する               
                 if(cartList.size() != 0){
                     for(int i = 0; i < cartList.size(); i++){                        
                     UserProductData upd = cartList.get(i); %>                   
                     <table>
                         <tr>
-                            <td rowspan = 2><IMG src="<%= upd.getImgURLm() %>"></td>
-                            <td><%= upd.getName() %></td>
+                            <td rowspan = 3><IMG src="<%= upd.getImgURLm() %>"></td>
+                            
+                            <!--　アイテム詳細ページへ移るときにクエリストリングで値を送る　-->
+                            <td>商品名：<a href="Item?id=<%= i %>"><%= upd.getName() %></a></td>
                         </tr>
                         <tr>
-                            <td><%= upd.getPrice() %>円</td>
+                            <td>価格：<%= upd.getPrice() %>円</td>
                         </tr>
                         <tr>
                             <td>
-                                <form action="Buyconfirm" method="post">
-                                   <input type="hidden" name="price" value="<%= upd.getPrice() %>">
-                                   <input type="submit" name="buy" value="購入">
-                            </form>
-                            </td>
-                            <td>
-                                <a href ="Cart?delete=<%= i %>">削除</a>
+                                <form action="ItemDelete?delete=<%= i %>" method="post">
+                                    <input type="submit" name="delete" value="削除">
+                                </form>
                             </td>
                         </tr>
-                    </table>
-                        <% } %>
-            <% } %>                       
+                    </table>                                 
+                    <% } %>
+                <% } else { %>
+                カートには何も入っておりません！
+                <br>
+                買い物は<a href="index.jsp">トップページ</a>の検索からどうぞ！
+                <% } %>
+                <br>
+                <% 
+                    //合計金額の計算
+                    for(int i = 0; i < cartList.size(); i++){
+                        total += cartList.get(i).getPrice();
+                    }    
+                %>   
+                <h4>合計金額：<%= total %>円</h4>
+                <!--　購入ボタン　total金額を一緒に送る-->
+                <form action="Buyconfirm" method="post">
+                    <input type="hidden" name="totalprice" value="<%= total %>">
+                    <input type="submit" name="buy" value="購入">
+                </form>   
         </div>
     </body>
 </html>

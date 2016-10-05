@@ -31,6 +31,7 @@ public class UserDataDAO {
      * @param ud
      * @throws java.sql.SQLException
     */
+   
     public void insert(UserDataDTO ud) throws SQLException{
         Connection con = null;
         PreparedStatement st = null;
@@ -67,6 +68,7 @@ public class UserDataDAO {
      * @return 
      * @throws java.sql.SQLException
      */
+    
     public UserDataDTO selectUser (UserDataDTO ud) throws SQLException{
         Connection con = null;
         PreparedStatement st = null;
@@ -114,6 +116,7 @@ public class UserDataDAO {
      * @param ud
      * @throws java.sql.SQLException
      */
+    
     public void update (UserDataDTO ud) throws SQLException{
         Connection con = null;
         PreparedStatement st = null;
@@ -152,6 +155,7 @@ public class UserDataDAO {
      * @param ud
      * @throws java.sql.SQLException
      */
+    
     public void delete (UserDataDTO ud) throws SQLException{
         
         Connection con = null;
@@ -186,12 +190,13 @@ public class UserDataDAO {
      * @param ud
      * @throws java.sql.SQLException
      */
+    
     public void BuyInsert(UserDataDTO ud) throws SQLException{
         Connection con = null;
         PreparedStatement st = null;
         try {
-            con = DBManager.getConnection()
-                    ;
+            con = DBManager.getConnection();
+            
             String sql = "INSERT INTO buy_t(userID,itemCode,type,buyDate) VALUES(?,?,?,?)";
             
             st = con.prepareStatement(sql);
@@ -214,11 +219,12 @@ public class UserDataDAO {
     }
     
     /**
-     * 購入履歴の検索
+     * 購入履歴の検索（history） 
      * @param ud
      * @return 
      * @throws java.sql.SQLException 
      */
+    
     public ArrayList<UserDataDTO> SearchItem(UserDataDTO ud) throws SQLException{
         
         Connection con = null;
@@ -270,6 +276,7 @@ public class UserDataDAO {
      * @param ud
      * @throws java.sql.SQLException
      */
+    
     public void Total(UserDataDTO ud) throws SQLException{
         
         Connection con = null;
@@ -277,10 +284,13 @@ public class UserDataDAO {
         
         try{
             con = DBManager.getConnection();
-            String sql = "UPDATE user_t SET total=? WHERE userID= ?" ;
+            
+            //totalに加算して更新する　（total = ? + total）
+            String sql = "UPDATE user_t SET total = ? + total WHERE userID= ?" ;
+            
             st =  con.prepareStatement(sql);        
             st.setInt(1, ud.getTotal());
-            st.setInt(2,ud.getUserID());
+            st.setInt(2, ud.getUserID());
             st.executeUpdate();
             
             System.out.println("totalupdate completed");

@@ -67,11 +67,11 @@
             登録日：<%= udd.getNewDate() %><br>
             <br>
             <form action="MydeleteResult?id=<%= udd.getUserID() %>" method="post">
-                <input type="hidden" name="ac" value="ac">
+                <%-- アクセスチェッック　--%>
+                <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
                 <input type="submit" name="yes" value="はい" style="width: 100px">
             </form>
             <form>
-                <input type="hidden" name="ac" value="ac">
                 <input type="submit" name="no" value="TOPへ戻る" style="width: 100px">
             </form>
         </div>

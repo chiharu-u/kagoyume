@@ -40,6 +40,12 @@ public class Buyconfirm extends HttpServlet {
         
         try{
             
+            //エンコード
+            request.setCharacterEncoding("UTF-8");
+            
+            //アクセスチェック
+            
+            
             //ログに記録
             Log.getInstance().logfile("購入確認画面へ遷移");
             

@@ -68,12 +68,13 @@
                 上記の内容で登録します。よろしいですか？
             </p>
             <form action="Registrationcomplete" method="post">
-                <input type="hidden" name="ac" value="ac">
+                <%-- アクセスチェッック　--%>
+                <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
                 <input type="submit" name="yes" value="はい">
             </form>
             <form action="Registration" method="post">
-<!--                <input type="hidden" name="mode" value="REINPUT">-->
-                <input type="submit" name="no" value="登録画面に戻る">
+                <input type="hidden" name="mode" value="reinput">
+                <input type="submit" name="back" value="登録画面に戻る">
             </form>
         </div>
     </body>

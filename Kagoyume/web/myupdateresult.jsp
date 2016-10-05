@@ -7,6 +7,7 @@
     「以上の内容で更新しました。」と、フォームで入力された値を表示
 --%>
 
+<%@page import="kagoyume.UserData"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="kagoyume.KagoyumeHelper"%>
 <%@page import="kagoyume.UserDataDTO"%>
@@ -14,7 +15,7 @@
 <%
     HttpSession hs = request.getSession();
     UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
-    KagoyumeHelper kh = KagoyumeHelper.getInstance();   
+    KagoyumeHelper kh = KagoyumeHelper.getInstance();
 %>
 
 <!DOCTYPE html>
@@ -51,7 +52,8 @@
             ここからメイン
         -->
         <div id="main-box">
-            更新できました
+            <h4>更新できました！</h4>
+           
         </div>
     </body>
 </html>

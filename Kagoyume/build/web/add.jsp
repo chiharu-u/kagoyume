@@ -6,7 +6,6 @@
     カートに追加ページ
     商品の情報を受け取り、クッキーやセッションに追加する
     画面には「カートに追加しました」という文言が出てくる。
-
 --%>
 
 <%@page import="kagoyume.UserProductData"%>
@@ -59,13 +58,24 @@
         <div id="main-box">
             <h4>買い物かご</h4>
             こちらの商品をカートに追加しました！
+            <br>
+            <br>
             <table>
                 <tr>
-                    <td rowspan="2"><img src="<%= upd.getImgURLs() %>"></td>
-                    <td colspan="2"><%= upd.getName() %></td>
+                    <td rowspan="2"><img src="<%= upd.getImgURLm() %>"></td>
+                    <td colspan="2">商品名：<%= upd.getName() %></td>
+                </tr>
+                <tr>
+                    <td colspan="2">価格：<%= upd.getPrice() %>円</td>
+                </tr>
+                <tr>
+                    <td>
+                        <br>
+                        <!--　カートへのリンク　-->
+                        <a href ="./Cart">カートを見る</a>                         
+                    </td>
                 </tr>
             </table>
-                <a href ="./Cart">カートを見る</a> 
         </div>
     </body>
 </html>

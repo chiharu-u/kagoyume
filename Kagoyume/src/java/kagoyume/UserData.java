@@ -40,8 +40,8 @@ public class UserData implements Serializable{
     public int getUserID(){
         return userID;
     }
-    public void setUserID(String userID){
-        this.userID = Integer.parseInt(userID);
+    public void setUserID(int userID){
+        this.userID = userID;
     }
     
     public String getName(){
@@ -75,8 +75,8 @@ public class UserData implements Serializable{
     public int getTotal(){
         return total;
     }
-    public void setTotal(String total){
-        this.total = Integer.parseInt(total);
+    public void setTotal(int total){
+        this.total = total;
     }
 
     /**
@@ -91,6 +91,7 @@ public class UserData implements Serializable{
         udd.setPassword(this.password);
         udd.setMail(this.mail);
         udd.setAddress(this.address);
+        udd.setTotal(this.total);
     }    
     
     /**
@@ -100,10 +101,6 @@ public class UserData implements Serializable{
      * @param udd
      */
     public void UDBMapping(UserDataDTO udd){
-        
-        //userIDとtotalをDTOから取り出してint > stringへ
-        String userID = String.valueOf(udd.getUserID());
-        String total = String.valueOf(udd.getTotal());
         
         //値を入れるudインタンスを生成
         UserData ud = new UserData();

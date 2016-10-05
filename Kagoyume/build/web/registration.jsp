@@ -15,7 +15,15 @@
 <%
     HttpSession hs = request.getSession();
     UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
-    KagoyumeHelper kh = KagoyumeHelper.getInstance();   
+    KagoyumeHelper kh = KagoyumeHelper.getInstance();
+    
+    boolean reinput = false;
+    //登録確認画面から登録画面へ戻ったとき
+    if(request.getParameter("mode") != null && request.getParameter("mode").equals("reinput")){
+        reinput = true;
+        udb = (UserDataBeans)hs.getAttribute("udb");
+    }
+
 %>
 
 <!DOCTYPE html>

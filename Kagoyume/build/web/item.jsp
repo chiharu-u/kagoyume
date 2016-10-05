@@ -61,22 +61,22 @@
             <h4>商品詳細</h4>
             <table>
                 <tr>
-                    <td rowspan="4"><IMG src ="<%= upd.getImgURLs() %>"></td>
-                    <td colspan="2"><%= upd.getName() %></td>
+                    <td rowspan="3"><IMG src ="<%= upd.getImgURLm() %>"></td>
+                    <td colspan="2">商品名：<%= upd.getName() %></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><%= upd.getDescription() %></td>
+                    <td colspan="2">商品詳細：<%= upd.getDescription() %></td>
                 </tr>
                 <tr>
-                    <td><%= upd.getPrice() %></td>
-                    <td><%= upd.getRate() %></td>
-                </tr>
-                <tr>
-                    <td><%= upd.getReviewURL() %></td>
-                </tr>
+                    <td>価格：<%= upd.getPrice() %>円</td>
+                    <td>評価：<%= upd.getRate() %></td>
+                </tr>               
                 <tr>
                     <td>
+                        <br>
                         <form action="Add" method="get">
+                            <%-- アクセスチェッック　--%>
+                            <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
                             <input type="submit" name="cart" value="カートに入れる">
                         </form>
                     </td>

@@ -39,7 +39,7 @@ public class Cart extends HttpServlet {
             UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
             
             //ログインチェッック
-            //ログインしてたらカートへ、ログインしていなかったらログインページへ
+            //ログインしてたらカートページへ、ログインしていなかったらログインページへ遷移
             if("login".equals(hs.getAttribute("loginchk"))){
                 response.sendRedirect("cart.jsp");
             }

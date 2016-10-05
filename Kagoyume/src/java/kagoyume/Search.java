@@ -46,14 +46,12 @@ public class Search extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = request.getSession();
+        HttpSession hs = request.getSession();
         
         try {
             
             //エンコード
             request.setCharacterEncoding("UTF-8");
-            
-            System.out.print("aa");
         
             //フォームの値を取得
             String y_Query = request.getParameter("query");
@@ -99,12 +97,12 @@ public class Search extends HttpServlet {
             head = mapper.readTree(parser);
             
             
+            //取り出すとき途中まで一緒なので変数に入れる
             JsonNode node = head.get("ResultSet").get("0").get("Result");          
             
-            ArrayList<UserProductData>list = new ArrayList<>();          
-            
+            //Arraylistに入れてsearch.jspで表示
+            ArrayList<UserProductData>list = new ArrayList<>();                      
            
-            //商品名
             if(list != null){
                 for (int i =0; i < node.size()-3; i++){
                 UserProductData itemResult = new UserProductData();
@@ -115,12 +113,26 @@ public class Search extends HttpServlet {
                 itemResult.setImgURLm(node.get(String.valueOf(i)).get("Image").get("Medium").asText());
                 itemResult.setImgURLs(node.get(String.valueOf(i)).get("Image").get("Small").asText());
                 itemResult.setRate(node.get(String.valueOf(i)).get("Review").get("Rate").asText());
-                itemResult.setReviewURL(node.get(String.valueOf(i)).get("Review").get("Url").asText());
                 list.add(itemResult);
-                session.setAttribute("list", list);
+                hs.setAttribute("list", list);
             }
             }
             
+            //検索数と検索ワードを取り出す
+            int totalsearch = head.get("ResultSet").get("totalResultsAvailable").asInt();
+            String query = node.get("Request").get("Query").asText();
+            
+            //セッションに入れる
+            hs.setAttribute("totalsearch", totalsearch);
+            hs.setAttribute("query", query);
+            
+            //ログ
+            Log.getInstance().logfile("検索結果画面へ遷移");
+            
+            //アクセスチェックのための乱数を作る
+            hs.setAttribute("ac", (int)(Math.random() * 1000));
+
+            //検索結果ページへ遷移
             request.getRequestDispatcher("/search.jsp").forward(request, response);
             
         }catch(Exception e){

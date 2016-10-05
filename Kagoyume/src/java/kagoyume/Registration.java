@@ -32,15 +32,22 @@ public class Registration extends HttpServlet {
             throws ServletException, IOException {
         
         //セッション開始
-        HttpSession session = request.getSession();
+        HttpSession hs = request.getSession();
         
+        try {
+
         //アクセスチェックのための乱数を作る
-        session.setAttribute("ac", (int)(Math.random() * 1000));
+        hs.setAttribute("ac", (int)(Math.random() * 1000));
         
         //登録画面へフォワード
         request.getRequestDispatcher("/registration.jsp").forward(request, response);
+        
+        //例外処理        
+        }catch(Exception e){
+            request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
+        }
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
