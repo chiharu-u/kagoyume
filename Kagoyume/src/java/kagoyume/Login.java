@@ -6,6 +6,7 @@
 package kagoyume;
 
 import java.io.IOException;
+import java.net.URL;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +44,8 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         
         //セッション開始
-        HttpSession hs = request.getSession();  
-        
+        HttpSession hs = request.getSession(); 
+     
         try {
         
         //エンコード
@@ -56,47 +57,48 @@ public class Login extends HttpServlet {
         //ログインを押されたら
         if(login.equals("login")){
 
-        //ユーザー名とパスワードを取得
-        String name = request.getParameter("name");
-        String password = request.getParameter("password");
+            //ユーザー名とパスワードを取得
+            String name = request.getParameter("name");
+            String password = request.getParameter("password");
                   
-        //UserDataへ格納
-        UserData ud = new UserData();
-        ud.setName(name);
-        ud.setPassword(password);
+            //UserDataへ格納
+            UserData ud = new UserData();
+            ud.setName(name);
+            ud.setPassword(password);
         
-        //DTOへマッピング
-        UserDataDTO userData  = new UserDataDTO();
-        ud.DTOMapping(userData);
+            //DTOへマッピング
+            UserDataDTO userData  = new UserDataDTO();
+            ud.DTOMapping(userData);
         
-        //DBからユーザーがあるか検索
-        UserDataDTO loginData = UserDataDAO.getInstance().selectUser(userData);
+            //DBからユーザーがあるか検索
+            UserDataDTO loginData = UserDataDAO.getInstance().selectUser(userData);
         
-        if(loginData != null && loginData.getDeleteFlg() == 0){
+                if(loginData != null && loginData.getDeleteFlg() == 0){
                                
-        //ユーザーデータをセッションに格納
-        hs.setAttribute("loginData", loginData);
+                    //ユーザーデータをセッションに格納
+                    hs.setAttribute("loginData", loginData);
         
-        //ログイン状態をセッションに格納
-        hs.setAttribute("loginchk", "login");
-        
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
-        
-        }              
-        else if(loginData.getDeleteFlg() == 1){
-        //検索結果の値が１だった場合は削除のエラー文
-        String error = "存在しないユーザーです。";
-        request.setAttribute("error", error);
-        request.getRequestDispatcher("/error.jsp").forward(request, response);
-        }
-        }        
+                    //ログイン状態をセッションに格納
+                    hs.setAttribute("loginchk", "login");
+       
+                }else if(loginData.getDeleteFlg() == 1){
+                    
+                    //検索結果の値が１だった場合は削除のエラー文
+                    String error = "存在しないユーザーです。";
+                    request.setAttribute("error", error);
+                    request.getRequestDispatcher("/error.jsp").forward(request, response);
+                }
+        }else{
         //ログアウトを押された時はセッションをクリアしてホームへ戻る
-        else{           
         hs.removeAttribute("loginData");
         hs.removeAttribute("loginchk");
+        
         //ホームへリダイレクト
         response.sendRedirect("index.jsp");
-        }
+        }       
+        
+        //ログインに成功したら前のページへフォワードする
+        response.sendRedirect(String.valueOf(hs.getAttribute("url")));
         
         //例外処理
         }catch(Exception e){

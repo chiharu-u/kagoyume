@@ -15,15 +15,7 @@
 <%
     HttpSession hs = request.getSession();
     UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
-    KagoyumeHelper kh = KagoyumeHelper.getInstance();
-    
-    boolean reinput = false;
-    //登録確認画面から登録画面へ戻ったとき
-    if(request.getParameter("mode") != null && request.getParameter("mode").equals("reinput")){
-        reinput = true;
-        udb = (UserDataBeans)hs.getAttribute("udb");
-    }
-
+    KagoyumeHelper kh = KagoyumeHelper.getInstance(); 
 %>
 
 <!DOCTYPE html>
@@ -64,10 +56,11 @@
         <div id="main-box">
             <form action="registrationconfirm" method="post">
                 <p>新規会員登録<br><br>
-                    氏名：<input type="text" name="name"><br>
-                    パスワード：<input type="password" name="password"><br>
-                    メールアドレス：<input type="email" name="email"><br>
-                    住所：<input type="text" name="address"><br>
+                    <!--　requiredで入力必須にする（ただ、safariでは動作・・　-->
+                    氏名：<input type="text" name="name" required><br>
+                    パスワード：<input type="password" name="password" required><br>
+                    メールアドレス：<input type="email" name="email" required><br>
+                    住所：<input type="text" name="address" required><br>
                     <!--　アクセスチェックの値を送る　-->
                     <input type="hidden" name="ac" value="ac">
                     <input type="submit" name="btnSubmit" value="確認画面へ">

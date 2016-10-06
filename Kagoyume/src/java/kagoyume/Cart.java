@@ -7,6 +7,7 @@ package kagoyume;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,13 +39,23 @@ public class Cart extends HttpServlet {
             
             UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
             
+            ArrayList<UserProductData>cartList = new ArrayList<UserProductData>(); 
+            
+            //カートリストが空じゃなかったらセッションに格納したカートリストを使う
+            if(hs.getAttribute("cartList") != null){
+                cartList = (ArrayList)hs.getAttribute("cartList");                          
+            }
+            
+            hs.setAttribute("cartList",cartList);
+            hs.setAttribute("url", request.getRequestURL());
+            
             //ログインチェッック
             //ログインしてたらカートページへ、ログインしていなかったらログインページへ遷移
             if("login".equals(hs.getAttribute("loginchk"))){
                 response.sendRedirect("cart.jsp");
             }
             else{
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login.jsp");     
             }
                    
         //例外処理

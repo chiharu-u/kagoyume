@@ -59,7 +59,7 @@
                     <table>
                         <tr>
                             <td rowspan="2"><IMG src="<%= upd.getImgURLs() %>"></td>
-                            <td>商品名：%= upd.getName() %></td>
+                            <td>商品名：<%= upd.getName() %></td>
                         </tr>
                         <tr>
                             <td>価格：<%= upd.getPrice() %>円</td>

@@ -60,7 +60,9 @@
 <%
     HttpSession hs = request.getSession();
     UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
-    KagoyumeHelper kh = KagoyumeHelper.getInstance(); 
+    KagoyumeHelper kh = KagoyumeHelper.getInstance();
+    //urlをセッションに入れる
+    hs.setAttribute("url", "index.jsp");
 %>
 
 <!DOCTYPE html>

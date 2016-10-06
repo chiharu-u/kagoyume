@@ -131,6 +131,9 @@ public class Search extends HttpServlet {
             
             //アクセスチェックのための乱数を作る
             hs.setAttribute("ac", (int)(Math.random() * 1000));
+            
+            //URLをセッションに格納
+            hs.setAttribute("url","search.jsp");
 
             //検索結果ページへ遷移
             request.getRequestDispatcher("/search.jsp").forward(request, response);
