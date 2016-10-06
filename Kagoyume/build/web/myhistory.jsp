@@ -14,7 +14,8 @@
     HttpSession hs = request.getSession();
     KagoyumeHelper kh = KagoyumeHelper.getInstance();
     UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
-    ArrayList <UserProductData> buylist = (ArrayList <UserProductData>)hs.getAttribute("buylist");  
+    ArrayList <UserProductData> buylist = (ArrayList <UserProductData>)hs.getAttribute("buylist");
+    String noitem = String.valueOf(hs.getAttribute("noitem"));
 %>
 <!DOCTYPE html>
 <html>
@@ -53,7 +54,7 @@
             <h4><%= udd.getName() %>さんの購入履歴です！</h4>
             
             <%--　＜修正＞　ArrayListの要素数分を表示する　--%>
-            <% if(buylist.size() != 0){
+            <% if(buylist != null){
                 for(int i = 0; i < buylist.size(); i++){
                     UserProductData upd = buylist.get(i); %>
                     <table>
@@ -66,6 +67,8 @@
                         </tr>
                     </table>
                 <% } %>
+            <% }else{ %>
+                    <%= noitem %>            
             <% } %>
         </div>
     </body>

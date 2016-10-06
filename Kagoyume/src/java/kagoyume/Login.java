@@ -6,7 +6,6 @@
 package kagoyume;
 
 import java.io.IOException;
-import java.net.URL;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +44,7 @@ public class Login extends HttpServlet {
         
         //セッション開始
         HttpSession hs = request.getSession(); 
-     
+      
         try {
         
         //エンコード
@@ -94,7 +93,7 @@ public class Login extends HttpServlet {
         hs.removeAttribute("loginchk");
         
         //ホームへリダイレクト
-        response.sendRedirect("index.jsp");
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
         }       
         
         //ログインに成功したら前のページへフォワードする

@@ -63,9 +63,9 @@ public class Myhistory extends HttpServlet {
             String itemcode = "";
             
             //商品コードで検索した値を入れる
-            ArrayList <UserProductData> updlist = new ArrayList <UserProductData> ();            
+            ArrayList <UserProductData> updlist = new ArrayList();            
                       
-            if(resultdata.size() != 0){
+            if(!resultdata.isEmpty()){
                 for(int i = 0; i < resultdata.size(); i++){
                    itemcode = resultdata.get(i).getItemCode();                          
                    
@@ -117,6 +117,8 @@ public class Myhistory extends HttpServlet {
                    updlist.add(itemResult);
                    hs.setAttribute("buylist", updlist);
                 }
+            }else{
+                hs.setAttribute("noitem", "購入商品はありません！");
             }
             
             //フォワード
