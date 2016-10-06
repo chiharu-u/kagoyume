@@ -87,6 +87,8 @@
                 <input type="radio" name="type" value="<%= i %>"><%= kh.type(i) %>
                 <% } %>
                 <br>
+                <%-- アクセスチェッック　--%>
+                <input type="hidden" name="ac"  value="<%= hs.getAttribute("ac")%>">
                 <input type="hidden" name="buyid" value="<%= udd.getUserID() %>">
                 <input type="hidden" name="totalprice" value="<%= total %>">
                 <br>
