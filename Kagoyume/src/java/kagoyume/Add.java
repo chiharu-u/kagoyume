@@ -37,12 +37,11 @@ public class Add extends HttpServlet {
             
             //アクセスルートチェック
             String accesschk = request.getParameter("ac");
-            if(accesschk ==null) //|| (Integer)session.getAttribute("ac")!=Integer.parseInt(accesschk))
-                    {
+            if((accesschk ==null) || (Integer)hs.getAttribute("ac")!=Integer.parseInt(accesschk)){
                 throw new Exception("不正なアクセスです");
             }
             
-            ArrayList<UserProductData>cartList = new ArrayList<UserProductData>(); 
+            ArrayList<UserProductData>cartList = new ArrayList<>(); 
             
             //カートリストが空じゃなかったらセッションに格納したカートリストを使う
             if(hs.getAttribute("cartList") != null){

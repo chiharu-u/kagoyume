@@ -37,17 +37,20 @@ public class Item extends HttpServlet {
         try {
             
             request.setCharacterEncoding("UTF-8");
-            
+          
+            //リストの番号を受け取る
             int i = Integer.parseInt(request.getParameter("id"));
             
+            //セッションから取り出す
             ArrayList <UserProductData> list = (ArrayList <UserProductData> )hs.getAttribute("list");
              
+            //リストからゲットしてUPDに入れる
             UserProductData upd = list.get(i);
             
-            System.out.printf(upd.getName());
-            
+            //セッションにアイテムを入れる
             hs.setAttribute("upd", upd);
                        
+            //フォワード
             request.getRequestDispatcher("/item.jsp").forward(request, response);
             
             }catch(Exception e){

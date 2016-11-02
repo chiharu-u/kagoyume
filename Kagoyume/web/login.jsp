@@ -37,19 +37,11 @@
             <%= kh.title() %>
             <%= kh.subTitle() %>
             
-            <!--　
-                セッションに入れたloginchkを取り出して、
-                ログイン中であればユーザー名・ログアウト・買い物かごを表示する
-            -->
-            <% if("login".equals(hs.getAttribute("loginchk"))){ %>
-            <a href="/mydata.jsp"><%= udd.getName() %></a>さん、ようこそ！           
-            <a href="Cart">買い物かご</a>
-            <!--　ログアウトする時は、クエリストリングで値を送ってLogin.javaで分岐させる　-->
-            <a href="Login?login=logout">ログアウト</a>            
-            <% } else{ %>
-            <!--　ログインリンク　-->
-            <%= kh.login() %>
-            <% } %>
+            <!--　ログインチェック　-->
+            <jsp:include page="/loginchk.jsp" flush="true" />
+            
+            <!--　ホームへのリンク　-->
+            <%= kh.home() %>
         </div>
         <!--
             ここからメイン

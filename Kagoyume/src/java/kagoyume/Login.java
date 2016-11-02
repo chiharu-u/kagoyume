@@ -83,7 +83,7 @@ public class Login extends HttpServlet {
                 }else if(loginData.getDeleteFlg() == 1){
                     
                     //検索結果の値が１だった場合は削除のエラー文
-                    String error = "存在しないユーザーです。";
+                    String error = "存在しないユーザーです";
                     request.setAttribute("error", error);
                     request.getRequestDispatcher("/error.jsp").forward(request, response);
                 }

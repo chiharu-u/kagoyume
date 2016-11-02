@@ -103,9 +103,13 @@ public class Search extends HttpServlet {
             //Arraylistに入れてsearch.jspで表示
             ArrayList<UserProductData>list = new ArrayList<>();                      
            
+            //jsonファイルはすべて文字列で返ってくる！
+            //iは数字から文字列に変換しないと取り出せない
             if(list != null){
                 for (int i =0; i < node.size()-3; i++){
+                
                 UserProductData itemResult = new UserProductData();
+                
                 itemResult.setName(node.get(String.valueOf(i)).get("Name").asText());
                 itemResult.setCode(node.get(String.valueOf(i)).get("Code").asText());
                 itemResult.setDescription(node.get(String.valueOf(i)).get("Description").asText());
@@ -113,7 +117,9 @@ public class Search extends HttpServlet {
                 itemResult.setImgURLm(node.get(String.valueOf(i)).get("Image").get("Medium").asText());
                 itemResult.setImgURLs(node.get(String.valueOf(i)).get("Image").get("Small").asText());
                 itemResult.setRate(node.get(String.valueOf(i)).get("Review").get("Rate").asText());
+                
                 list.add(itemResult);
+                
                 hs.setAttribute("list", list);
             }
             }

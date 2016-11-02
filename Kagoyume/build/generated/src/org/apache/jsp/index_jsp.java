@@ -3,6 +3,8 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import kagoyume.UserProductData;
+import java.util.ArrayList;
 import kagoyume.KagoyumeHelper;
 import kagoyume.UserDataDTO;
 import java.util.Map;
@@ -45,6 +47,8 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
+      out.write("    \n");
+      out.write("\n");
       out.write("\n");
       out.write("\n");
       out.write("\n");
@@ -56,7 +60,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
 
                 //フォームタグプルダウン
                 //カテゴリー　HashMap
-                HashMap<String, String> categories = new HashMap<String, String>();
+                HashMap<String, String> categories = new HashMap();
 
                 categories.put("1", "すべてのカテゴリから");
                 categories.put("13457", "ファッション");
@@ -82,7 +86,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
                 categories.put("10002", "本、雑誌、コミック");
 
                 //ソート　HashMap
-                HashMap<String, String> sortOrder = new HashMap<String, String>();
+                HashMap<String, String> sortOrder = new HashMap();
 
                 sortOrder.put("-score", "おすすめ順");
                 sortOrder.put("+price", "商品価格が安い順");
@@ -96,7 +100,9 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
 
     HttpSession hs = request.getSession();
     UserDataDTO udd = (UserDataDTO)hs.getAttribute("loginData");
-    KagoyumeHelper kh = KagoyumeHelper.getInstance();   
+    KagoyumeHelper kh = KagoyumeHelper.getInstance();
+    //urlをセッションに入れる
+    hs.setAttribute("url", "index.jsp");
 
       out.write("\n");
       out.write("\n");
@@ -117,30 +123,13 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            ");
       out.print( kh.title() );
       out.write("\n");
-      out.write("            <h4>「金銭取引が絶対に発生しない」どんなもので購入できる気分になれるサイトです！</h4>            \n");
+      out.write("            ");
+      out.print( kh.subTitle() );
+      out.write("\n");
       out.write("            \n");
-      out.write("            <!--　\n");
-      out.write("                セッションに入れたloginchkを取り出して、\n");
-      out.write("                ログイン中であればユーザー名・ログアウト・買い物かごを表示する\n");
-      out.write("            -->\n");
+      out.write("            <!--　ログインチェック　-->\n");
       out.write("            ");
- if("login".equals(hs.getAttribute("loginchk"))){ 
-      out.write("\n");
-      out.write("            <a href=\"mydata.jsp\">");
-      out.print( udd.getName() );
-      out.write("</a>さん&nbsp;ようこそ！           \n");
-      out.write("            <a href=\"Cart\">買い物かご</a>\n");
-      out.write("            <!--　ログアウトする時は、クエリストリングで値を送ってLogin.javaで分岐させる　-->\n");
-      out.write("            <a href=\"Login?login=logout\">ログアウト</a>            \n");
-      out.write("            ");
- } else{ 
-      out.write("\n");
-      out.write("            <!--　ログインリンク　-->\n");
-      out.write("            ");
-      out.print( kh.login() );
-      out.write("\n");
-      out.write("            ");
- } 
+      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "/loginchk.jsp", out, true);
       out.write("\n");
       out.write("        </div>\n");
       out.write("        <!--\n");
